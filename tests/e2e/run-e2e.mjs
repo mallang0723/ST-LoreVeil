@@ -158,7 +158,11 @@ try {
         await page.waitForFunction((reply) => [...document.querySelectorAll('#chat .mes')].some((m) => m.textContent.includes(reply)), MOCK_REPLY, { timeout: 30000 });
         await sleep(300);
         const reqs = mock.requests.slice(before);
-        return { prompt: promptText(reqs[reqs.length - 1].body), n: reqs.length };
+        // Other extensions may send their own requests (e.g. translators, memory archivers).
+        // The generation request is the one whose prompt ends with the message just sent.
+        const prompts = reqs.map((q) => promptText(q.body));
+        const main = prompts.filter((t) => t.trimEnd().endsWith(text));
+        return { prompt: main[0] ?? prompts[0], n: main.length, extra: reqs.length - main.length };
     }
     const storedUserMes = () => page.evaluate(() => SillyTavern.getContext().chat.filter((m) => m.is_user).at(-1)?.mes);
 
@@ -179,7 +183,7 @@ try {
 
     // (a)
     let r = await sendFresh('Mira enters.');
-    record('a', 'control: "Mira enters." activates the entry', has(r.prompt) && r.n === 1, `requests=${r.n}; ${excerpt(r.prompt, MARKER)}`);
+    record('a', 'control: "Mira enters." activates the entry', has(r.prompt) && r.n === 1, `generation requests=${r.n}, other requests=${r.extra}; ${excerpt(r.prompt, MARKER)}`);
 
     const dbgLines = (from) => consoleMsgs.slice(from).map((m) => m.text).filter((t) => t.includes('[LoreVeil]'));
     // excluded-form case: marker absent, text verbatim in prompt, stored mes unchanged
