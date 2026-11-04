@@ -57,6 +57,11 @@ HTML 주석 안의 요소·속성 형식, `class="st-loreveil"` 같은 속성 �
 
 `generate_interceptor`로 `Generate()`가 넘기는 `coreChat`(채팅의 얕은 복사본)를 받아, 직후 월드인포 스캔이 호출하는 첫 `coreChat.map(...)` 한 번만 가려진 사본을 돌려주도록 일회성으로 덮어씁니다. 원본 `mes`는 절대 수정하지 않으며, 덮어쓴 `map`은 사용 즉시 삭제됩니다. 안전장치로 `WORLDINFO_ENTRIES_LOADED`, `GENERATION_ENDED`, `GENERATION_STOPPED` 이벤트와 다음 인터셉터 실행 시작 때도 정리합니다.
 
+## 다른 확장과 함께 쓸 때
+
+- **번역 확장(예: Interpres)**: 내 입력을 자동 번역하는 기능을 쓰면, 보내기 전에 메시지가 번역문으로 바뀌면서 `<st-loreveil>` 태그가 사라질 수 있습니다. 번역 확장의 번역 제외 태그 설정에 `st-loreveil`을 추가하세요. AI 답변만 번역하는 기본 설정에서는 LoreVeil의 로어북 가리기에 영향이 없습니다.
+- **장기기억 확장(예: Memoria)**: 기억을 정리할 때 `<태그>…</태그>` 블록을 내용째 지우는 확장이 있습니다. 이 경우 `<st-loreveil>`로 감싼 글은 기억에서도 빠집니다. 로어북 스캔에서만 빼고 기억에는 남기려면 마커 형식(`!--ST_LOREVEIL_START--! … !--ST_LOREVEIL_END--!`)을 쓰세요.
+
 ## 한계
 
 - 드라이 런(토큰 카운터)과 프롬프트 항목화(prompt itemization)는 인터셉터를 건너뛰므로 가려지지 않은 글로 스캔합니다.
