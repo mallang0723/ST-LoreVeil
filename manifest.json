@@ -1,0 +1,11 @@
+{
+    "display_name": "LoreVeil",
+    "loading_order": 10000,
+    "requires": [],
+    "optional": [],
+    "js": "index.js",
+    "css": "style.css",
+    "generate_interceptor": "loreVeilInterceptor",
+    "author": "mallang0723",
+    "version": "1.0.0"
+}

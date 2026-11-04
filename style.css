@@ -1,0 +1,7 @@
+.loreveil_settings .loreveil_row { display: flex; gap: 6px; align-items: center; }
+.loreveil_settings .loreveil_row .text_pole { flex: 1; margin: 0; }
+.loreveil_settings .loreveil_invalid { color: #e55; font-size: 0.9em; }
+.loreveil_settings .loreveil_example { font-family: monospace; font-size: 0.85em; opacity: 0.85; margin: 2px 0 6px; word-break: break-all; }
+.loreveil_settings .loreveil_pre { white-space: pre-wrap; word-break: break-all; font-size: 0.85em; margin: 4px 0; padding: 4px; min-height: 1.4em; }
+.loreveil_settings label { display: block; margin-top: 6px; }
+.loreveil_settings label.checkbox_label { display: flex; align-items: center; gap: 6px; }
